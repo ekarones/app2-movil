@@ -2,6 +2,7 @@
   "expo": {
     "name": "app2_movil",
     "slug": "app2_movil",
+    "scheme": "app2_movil",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,10 +20,33 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ekarones.app2_movil"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "extra": {
+      "API_LOGIN_URL": "http://20.150.221.35:8000/login/",
+      "API_REGISTER_URL": "http://20.150.221.35:8000/register/",
+      "API_UPLOAD_IMAGE_URL": "http://20.150.221.35:8000/upload-image/",
+      "API_GET_IMAGE_URL": "http://20.150.221.35:8000/get-image",
+      "API_GET_IMAGE_ASSETS_URL": "http://20.150.221.35:8000/get-image-assets",
+      "API_GET_ADVICES_BY_DISEASE_URL": "http://20.150.221.35:8000/get-advices-by-disease",
+      "API_GET_RECORDS_BY_ID_URL": "http://20.150.221.35:8000/get-records-by-user/",
+      "API_RECORDS_URL": "http://20.150.221.35:8000/records/",
+      "API_GET_DIAGNOSE_BY_RECORD_URL": "http://20.150.221.35:8000/get-diagnose-by-record/",
+      "API_GET_ALL_NOTIFICATIONS_URL": "http://20.150.221.35:8000/get-all-notifications/",
+      "API_GET_USER_BY_ID_URL": "http://20.150.221.35:8000/users/",
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4c8e4174-4dc3-4d01-9c99-10fa63bfe4a1"
+      }
     }
   }
 }
