@@ -91,7 +91,6 @@ export default function RegisterPage() {
               break;
           }
         }
-
         Alert.alert("❌ Error", errorMessage);
       }
     } catch (err) {

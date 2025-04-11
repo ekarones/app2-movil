@@ -1,5 +1,5 @@
-import { router } from "expo-router";
 import React, { useState } from "react";
+import { router } from "expo-router";
 import {
   StyleSheet,
   Text,
@@ -89,7 +89,10 @@ export default function LoginPage() {
       <TouchableOpacity style={styles.loginButton} onPress={validate}>
         <Text style={styles.textLoginButton}>Iniciar Sesión</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.registerButton} onPress={() => router.push("/registerPage")}>
+      <TouchableOpacity
+        style={styles.registerButton}
+        onPress={() => router.push("/registerPage")}
+      >
         <Text style={styles.textRegisterButton}>Crear una cuenta</Text>
       </TouchableOpacity>
     </View>
