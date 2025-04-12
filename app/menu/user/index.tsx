@@ -1,6 +1,6 @@
 import React from "react";
-import LoginPage from "./loginPage";
+import UserPage from "./userPage";
 
 export default function Index() {
-  return <LoginPage />;
+  return <UserPage />;
 }
