@@ -77,7 +77,12 @@ export default function DiagnosePage() {
         body: formData,
       });
 
-      if (!response.ok) {
+      if (response.status === 400) {
+        alert("No se ha identificado ninguna hoja en la imagen. Por favor, intenta con otra imagen.");
+        return;
+      }
+      
+      if (!response.ok && response.status !== 400) {
         const errorText = await response.text();
         console.log("Error del servidor:", errorText);
         throw new Error("Error al subir la imagen");
@@ -160,7 +165,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f2f2f2",
-    paddingVertical:5,
+    paddingVertical: 5,
   },
   header: {
     padding: 20,
