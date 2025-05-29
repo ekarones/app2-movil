@@ -24,7 +24,13 @@ export default function UserLayout() {
       <Stack.Screen
         name="guide"
         options={{
-          title: "Guía rápida",
+          title: "Guía",
+        }}
+      />
+            <Stack.Screen
+        name="configAccount"
+        options={{
+          title: "Configuración",
         }}
       />
     </Stack>

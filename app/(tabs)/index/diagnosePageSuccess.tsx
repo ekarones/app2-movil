@@ -15,7 +15,7 @@ export default function DiagnosePageSuccess() {
     <View style={styles.container}>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.textSubtitle}>Información de la imagen</Text>
+        <Text style={styles.textHeader}>Información de la imagen</Text>
         <View style={styles.imageRow}>
           <View style={styles.imageContainer}>
             {result.record_image ? (
@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
     paddingVertical:5,
   },
   textHeader: {
-    color: "#17B8A6",
-    fontSize: 32,
+    color: "#595c5f",
+    fontSize: 18,
     fontWeight: "bold",
   },
   textSubtitle: {

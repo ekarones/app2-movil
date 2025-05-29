@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Image, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useAuth } from "../../../components/AuthContext";
 import Constants from "expo-constants";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { API_GET_USER_BY_ID_URL } = Constants.expoConfig.extra;
 
@@ -13,7 +21,7 @@ interface UserData {
 }
 
 export default function UserPage() {
-  const { userId } = useAuth();
+  const { userId, setUserId } = useAuth();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -33,19 +41,35 @@ export default function UserPage() {
     }, [])
   );
 
+  const logout = async () => {
+    await AsyncStorage.removeItem("userId");
+    setUserId(null);
+    router.replace("/login");
+  };
+
+  const handleLogout = () => {
+    Alert.alert(
+      "Confirmación",
+      "¿Estás seguro de que deseas cerrar sesión?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        { text: "Cerrar sesión", onPress: logout, style: "destructive" },
+      ],
+      { cancelable: true }
+    );
+  };
+
   return (
     <View style={styles.container}>
       {loading ? (
-        <ActivityIndicator size="large" color="#fff" />
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#595c5f" />
+        </View>
       ) : (
         <>
           <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <Ionicons name="person-circle" size={100} color="#b3b3b3" />
-            <View style={{ paddingTop: 5, paddingBottom: 40, width: 300,gap:5 }}>
-              {/* <Text style={styles.whiteText}>
-                <Text style={{ fontWeight: "bold" }}>ID: </Text>
-                {userData.data[0]}
-              </Text> */}
+            <View style={{ paddingTop: 5, paddingBottom: 40, width: 300, gap: 5 }}>
               <Text style={styles.whiteText}>
                 <Text style={{ fontWeight: "bold" }}>Nombre de usuario: </Text>
                 {userData.data[1]}
@@ -56,19 +80,19 @@ export default function UserPage() {
               </Text>
             </View>
             <View style={styles.form}>
-              <TouchableOpacity style={styles.normalButton}>
-                <Ionicons name="create-outline" size={64} color="black" />
-                <Text style={styles.textNormalButton}>Editar datos</Text>
+              <TouchableOpacity style={styles.normalButton} onPress={() => router.push("/user/configAccount")}>
+                <Ionicons name="settings-outline" size={64} color="black" />
+                <Text style={styles.textNormalButton}>Configuración</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.normalButton} onPress={() => router.push("/user/notificationsPage")}>
                 <Ionicons name="newspaper-outline" size={64} color="black" />
                 <Text style={styles.textNormalButton}>Noticias</Text>
-              </TouchableOpacity> 
+              </TouchableOpacity>
               <TouchableOpacity style={styles.normalButton} onPress={() => router.push("/user/guide")}>
                 <Ionicons name="help-circle-outline" size={64} color="black" />
-                <Text style={styles.textNormalButton}>Guía rápida</Text>
+                <Text style={styles.textNormalButton}>Guía</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.normalButton}>
+              <TouchableOpacity style={styles.normalButton} onPress={handleLogout}>
                 <Ionicons name="exit-outline" size={64} color="black" />
                 <Text style={styles.textNormalButton}>Salir</Text>
               </TouchableOpacity>
@@ -102,11 +126,11 @@ const styles = StyleSheet.create({
   whiteText: {
     color: "#000",
     fontSize: 16,
-    backgroundColor:"#b3b3b3",
-    borderRadius:5,
-    paddingVertical:5,
-    paddingHorizontal:10,
-    width:300
+    backgroundColor: "#b3b3b3",
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    width: 300,
   },
   perfil: {
     display: "flex",
@@ -118,21 +142,21 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   form: {
-    flexDirection: "row", // Arrange items in a row
-    flexWrap: "wrap", // Allow wrapping to the next row
-    alignItems: "center", // Align items vertically
-    justifyContent: "center",
-    gap: 20, // Add spacing between buttons
-    width: 320, // Set a fixed width for the grid
-  },
-  image: {
-    borderBottomRightRadius: 100,
-    borderBottomLeftRadius: 100,
-    backgroundColor: "#17B8A6",
-    width: "100%",
-    height: 120,
+    flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
-    justifyContent: "flex-end",
-    elevation: 8,
+    justifyContent: "center",
+    gap: 20,
+    width: 320,
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 999,
   },
 });

@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useAuth } from "../components/AuthContext";
 import Constants from "expo-constants";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // 👈 agregado
 
 const { API_LOGIN_URL } = Constants.expoConfig.extra;
 
@@ -44,6 +54,9 @@ export default function LoginPage() {
 
       const responseData = await response.json();
       if (response.ok && responseData.message === "Login successful") {
+        await AsyncStorage.setItem("userId", String(responseData.user_id)); // ✅ corregido
+
+        // await AsyncStorage.setItem("userId", responseData.user_id); // 👈 persistencia
         setUserId(responseData.user_id);
         router.push("/(tabs)");
       } else {
@@ -62,7 +75,11 @@ export default function LoginPage() {
         <Text style={styles.title}>App-2</Text>
         <Text style={styles.subtitle}>¡Bienvenido de vuelta!</Text>
         <View style={styles.imageContent}>
-          <Image source={require("../assets/images/login-img.png")} resizeMode="contain" style={styles.image} />
+          <Image
+            source={require("../assets/images/login-img.png")}
+            resizeMode="contain"
+            style={styles.image}
+          />
         </View>
         <Text>Ingresa tus credenciales para continuar</Text>
       </View>

@@ -1,10 +1,13 @@
-import { SplashScreen, Stack } from "expo-router";
+// app/_layout.tsx
+import { Stack } from "expo-router";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { AuthProvider } from "../components/AuthContext";
 import * as NavigationBar from "expo-navigation-bar";
+import * as SplashScreen from "expo-splash-screen";
+import { RedirectGate } from "../components/RedirectGate";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,24 +37,22 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <View style={styles.container}>
-        <Stack
-          screenOptions={{
-            headerTransparent: true,
-            contentStyle: { backgroundColor: "#7f8387" },
-            headerTitle: "",
-            animation: "fade",
-          }}
-        >
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false,
+      <RedirectGate>
+        <View style={styles.container}>
+          <Stack
+            screenOptions={{
+              headerTransparent: true,
+              contentStyle: { backgroundColor: "#7f8387" },
+              headerTitle: "",
+              animation: "fade",
             }}
-          />
-        </Stack>
-        <StatusBar style="dark" />
-      </View>
+          >
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="loginPage" options={{ headerShown: false }} />
+          </Stack>
+          <StatusBar style="dark" />
+        </View>
+      </RedirectGate>
     </AuthProvider>
   );
 }
